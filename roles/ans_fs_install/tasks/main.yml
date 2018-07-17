@@ -4,7 +4,7 @@
         device: "{{ item.value.pVol }}"
         number: 1
         state: present
-        flags: [ "{{ item.value.appOption }}" ]
+        flags: [ lvm ]
         label: gpt
         part_start: 2048s #disk alignment 
       with_dict: "{{ disks }}"
@@ -18,7 +18,7 @@
 
     - name: ensure logcical volumes
       lvol:
-        lv: lv_{{ item.value.mountPoint.split('/')[-1] }}
+        lv: "{{ item.value.lvm }}"
         state: present
         vg: "{{ item.value.volGroup }}"
         size: 100%VG
@@ -27,7 +27,7 @@
     - name: ensure filesystems
       filesystem:
         fstype: "{{ item.value.fstype }}"
-        dev: /dev/mapper/{{ item.value.volGroup }}-lv_{{ item.value.mountPoint.split('/')[-1] }}
+        dev: /dev/mapper/{{ item.value.volGroup }}-{{ item.value.lvm }}
       with_dict: "{{ disks }}"
 
     - name: ensure filesystem mounts
@@ -35,6 +35,6 @@
         path: "{{item.value.mountPoint }}"
         fstype: "{{ item.value.fstype }}"
         state: mounted
-        src: /dev/mapper/{{ item.value.volGroup }}-{{ item.value.mountPoint.split('/')[-1] }}
+        src: /dev/mapper/{{ item.value.volGroup }}-{{ item.value.lvm }}
       with_dict: "{{ disks }}"
 ...

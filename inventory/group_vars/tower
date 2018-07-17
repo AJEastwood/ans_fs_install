@@ -1,11 +1,9 @@
 ---
 disks:
   Disk1:
-    size: 100
     fstype: 'xfs'
     mountPoint: '/var/lib/awx'
-    lvm: True
+    lvm: lv_awx
     pVol: '/dev/sdc'
     volGroup: vg_awx
-    appOption: 'lvm'
 ...
