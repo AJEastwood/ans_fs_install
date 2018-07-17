@@ -18,7 +18,7 @@
 
     - name: ensure logcical volumes
       lvol:
-        lv: "{{ item.value.mountPoint.split('/')[-1] }}"
+        lv: lv_{{ item.value.mountPoint.split('/')[-1] }}
         state: present
         vg: "{{ item.value.volGroup }}"
         size: 100%VG
@@ -27,7 +27,7 @@
     - name: ensure filesystems
       filesystem:
         fstype: "{{ item.value.fstype }}"
-        dev: /dev/mapper/{{ item.value.volGroup }}-{{ item.value.volGroup }}
+        dev: /dev/mapper/{{ item.value.volGroup }}-lv_{{ item.value.mountPoint.split('/')[-1] }}
       with_dict: "{{ disks }}"
 
     - name: ensure filesystem mounts
@@ -35,6 +35,6 @@
         path: "{{item.value.mountPoint }}"
         fstype: "{{ item.value.fstype }}"
         state: mounted
-        src: /dev/mapper/{{ item.value.volGroup }}-{{ item.value.volGroup }}
+        src: /dev/mapper/{{ item.value.volGroup }}-{{ item.value.mountPoint.split('/')[-1] }}
       with_dict: "{{ disks }}"
 ...

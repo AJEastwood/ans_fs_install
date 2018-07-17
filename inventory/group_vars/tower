@@ -6,6 +6,6 @@ disks:
     mountPoint: '/var/lib/awx'
     lvm: True
     pVol: '/dev/sdc'
-    volGroup: awx
+    volGroup: vg_awx
     appOption: 'lvm'
 ...
