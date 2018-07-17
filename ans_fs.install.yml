@@ -1,0 +1,5 @@
+---
+  - hosts: all
+    gather_facts: True
+    roles:
+      - ans_fs_install
