@@ -27,14 +27,14 @@
     - name: ensure filesystems
       filesystem:
         fstype: "{{ item.value.fstype }}"
-        dev: /dev/{{ item.value.volGroup }}/{{ item.value.mountPoint.split('/')[-1] }}
-        with_dict: "{{ disks }}"
+        dev: /dev/mapper/{{ item.value.volGroup }}-{{ item.value.volGroup }}
+      with_dict: "{{ disks }}"
 
     - name: ensure filesystem mounts
       mount:
-        path: "{{item.value.mount.Point }}"
+        path: "{{item.value.mountPoint }}"
         fstype: "{{ item.value.fstype }}"
         state: mounted
-        src: /dev/{{ item.value.volGroup }}/{{ item.value.mountPoint.split('/')[-1] }}
+        src: /dev/mapper/{{ item.value.volGroup }}-{{ item.value.volGroup }}
       with_dict: "{{ disks }}"
 ...
