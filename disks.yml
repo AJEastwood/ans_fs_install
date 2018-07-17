@@ -1,0 +1,45 @@
+---
+- hosts: all
+  tasks:
+    - name: partition and create LVM
+      block:
+        - name: partition disks
+          parted:
+            device: "{{ item.value.pVol }}"
+            number: 1
+            state: present
+            flags: [ "{{ item.value.appOption }}" ]
+            label: gpt
+            part_start: 2048s #disk alignment 
+          with_dict: "{{ disks }}"
+
+        - name: ensure volume groups
+          lvg:
+            vg: "{{ item.value.volGroup }}" # Test this out!
+            state: present
+            pvs: "{{ item.value.pVol + '1' }}"
+          with_dict: "{{ disks }}"
+
+        - name: ensure logcical volumes
+          lvol:
+            lv: "{{ item.value.mountPoint.split('/')[-1] }}"
+            state: present
+            vg: "{{ item.value.volGroup }}"
+            size: "{{ item.value.size * 1024 }}"
+          with_dict: "{{ disks }}"
+
+        - name: ensure filesystems
+          filesystem:
+            fstype: "{{ item.value.fstype }}"
+            dev: "{{ '/dev/vg_data/' + item.value.mountPoint.split('/')[-1] }}"
+            with_dict: "{{ disks }}"
+
+        - name: ensure filesystem mounts
+          mount:
+            path: "{{item.value.mount.Point }}"
+            fstype: " {{ item.valie.fstype }}"
+            state: mounted
+            src: "{{ '/dev/vg_data/' + item.value.mountPoint.split('/')[-1] }}"
+          with_dict: "{{ disks }}"
+      when: item.value.lvm | bool
+...

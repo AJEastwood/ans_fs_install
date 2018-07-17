@@ -1,0 +1,29 @@
+---
+disks:
+  Disk1:
+    size: 100
+    fstype: 'xfs'
+    scsiControllerNumber: 0
+    mountPoint: '/foo/bar'
+    lvm: True
+    pVol: '/dev/sdb'
+    volGroup: data1
+    appOption: 'lvm'
+  Disk2:
+    size: 75
+    fstype: 'xfs'
+    scsiControllerNumber: 0
+    mountPoint: '/foo/bar/baz'
+    lvm: True
+    pVol: '/dev/sdb'
+    volGroup: data1
+    appOption: 'lvm'
+  Disk3:
+    size: 75
+    fstype: 'xfs'
+    scsiControllerNumber: 0
+    mountPoint: 'none'
+    lvm: False
+    pVol: '/dev/sdc'
+    appOption: 'asm'
+...
