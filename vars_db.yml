@@ -1,0 +1,11 @@
+---
+disks:
+  Disk1:
+    size: 100
+    fstype: 'xfs'
+    mountPoint: '/var/lib/pgsql'
+    lvm: True
+    pVol: '/dev/sdc'
+    volGroup: pgsql
+    appOption: 'lvm'
+...

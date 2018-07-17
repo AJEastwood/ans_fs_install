@@ -15,7 +15,7 @@
 
         - name: ensure volume groups
           lvg:
-            vg: "{{ item.value.volGroup }}" # Test this out!
+            vg: "{{ item.value.volGroup }}"
             state: present
             pvs: "{{ item.value.pVol + '1' }}"
           with_dict: "{{ disks }}"
