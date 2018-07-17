@@ -21,20 +21,20 @@
         lv: "{{ item.value.mountPoint.split('/')[-1] }}"
         state: present
         vg: "{{ item.value.volGroup }}"
-        size: "{{ item.value.size * 1024 }}"
+        size: 100%VG
       with_dict: "{{ disks }}"
 
     - name: ensure filesystems
       filesystem:
         fstype: "{{ item.value.fstype }}"
-        dev: "{{ '/dev/vg_data/' + item.value.mountPoint.split('/')[-1] }}"
+        dev: /dev/{{ item.value.volGroup }}/{{ item.value.mountPoint.split('/')[-1] }}
         with_dict: "{{ disks }}"
 
     - name: ensure filesystem mounts
       mount:
         path: "{{item.value.mount.Point }}"
-        fstype: " {{ item.valie.fstype }}"
+        fstype: "{{ item.value.fstype }}"
         state: mounted
-        src: "{{ '/dev/vg_data/' + item.value.mountPoint.split('/')[-1] }}"
+        src: /dev/{{ item.value.volGroup }}/{{ item.value.mountPoint.split('/')[-1] }}
       with_dict: "{{ disks }}"
 ...

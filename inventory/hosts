@@ -1,4 +1,7 @@
 [tower]
+z1ansible01.mocr-nt1.otsuka.com
+z1ansible02.mocr-nt1.otsuka.com
+z1ansible03.mocr-nt1.otsuka.com
 
 [database]
-
+z1ansibledb01.mocr-nt1.otsuka.com
